@@ -95,3 +95,7 @@ Web 宿主现将弹层标为 aria-modal dialog，并将遮挡的 product-scroll 
 ## 提交订单与 confetti
 
 购物袋新增 Submit order，保存规格、数量和总价，清空购物袋并显示 Order confirmed。演示订单只存于页面状态。成功页使用 48 个 Lynx view 和 CSS keyframes 显示 confetti。完整 Agent 测试在移除商品检查后重新加入三件 Sand / Walnut，提交 $810 订单，断言订单明细、Bag (0)、confetti 节点和实际动画位移。2026-10-06 Decisions + DeepSeek 接手版关闭操作缓存运行通过，45.92 秒。报告和视频在 results/agent-order-confetti，截图在 screenshots/agent-order-confetti.png。
+
+## 下单展示录屏
+
+独立用例 tests/order-demo.e2e.ts 只展示选 Sand、加入两件、购物袋改成三件、提交 $720 的 Sand / Oak 演示订单及 confetti，不包含拖图、材质面板或移除再加入。两版共用该用例，关闭操作缓存。2026-10-06 Decisions 完整通过 9.97 秒、12 次 Decisions 调用，本轮未用 DeepSeek；纯 DeepSeek 完整通过 23.62 秒、7 次调用。含结尾 3 秒庆祝展示，仅为单轮耗时。原始视频和报告在 results/order-demo-decisions、results/order-demo-deepseek。
