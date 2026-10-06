@@ -105,3 +105,5 @@ Web 宿主现将弹层标为 aria-modal dialog，并将遮挡的 product-scroll 
 下单录屏的拖动已放慢：测试在 Agent 拖动期间对真实 mouse.move 插值，随后恢复原始输入方法，没有改视频播放速度或修改依赖。e2e 内置 drag 当前没有可传的持续时间参数。两版实测均为 -315px，持续约 2.42 秒，0 wheel、0 分页点击。Decisions 混合版通过 15.02 秒，纯 DeepSeek 通过 19.57 秒；报告与视频见 results/order-slow-drag-decisions 和 results/order-slow-drag-deepseek。
 
 横向拖动再次调整为约 1.2 秒，图片拖动区域左右各外移 20px，使实际拖动从 315px 增加到 355px。两版分别实测 1.216 / 1.226 秒，0 wheel、0 分页点击，图片 2 和下单断言均通过。Decisions 混合版 13.34 秒、纯 DeepSeek 18.25 秒，见 results/order-medium-drag-decisions、results/order-medium-drag-deepseek。
+
+下单演示用例现额外调用 agent.assert，判断页面确认三件 Sand / Oak、总价 $720、订单成功且购物袋为空；原有 expect 全部保留。2026-10-06 两版都通过，Decisions 的 assert 为 629ms、1 次调用，纯 DeepSeek 为 3.29 秒、1 次调用，整条流程分别 17.56 / 20.44 秒。见 results/order-assert-decisions、results/order-assert-deepseek。该 assert 检查屏幕文字语义，confetti 动画仍由精确检查验证。

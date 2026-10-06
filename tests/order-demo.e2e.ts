@@ -75,5 +75,6 @@ test('Place order and celebrate',{agent:'default'},async({app,browser,agent})=>{
  const before=await particle.evaluate(e=>getComputedStyle(e).transform);
  await page.waitForTimeout(200);
  expect(await particle.evaluate(e=>getComputedStyle(e).transform)).not.toBe(before);
+ await agent.assert('The page confirms a successful order of three Sand / Oak Everyday Chairs with a total of $720, and the shopping bag is empty.');
  await page.waitForTimeout(3000);
 });
