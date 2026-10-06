@@ -1,33 +1,50 @@
 {
   "name": "lynx-e2e-demo",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Agentic end-to-end testing of a ReactLynx app with e2e, DeepSeek, and OpenRouter Decisions.",
   "scripts": {
     "build": "rspeedy build",
     "dev": "npm run build && node server.mjs",
     "test": "npm run build && e2e run tests/lynx.e2e.ts --output results/local",
     "test:agent": "npm run build && node scripts/agent-run.mjs",
+    "test:decisions": "npm run build && node scripts/agent-run.mjs --decisions",
+    "test:journey": "npm run build && node scripts/agent-run.mjs --journey",
     "test:cache": "npm run build && node scripts/agent-run.mjs --strict-cache",
-    "browser:install": "node node_modules/playwright-core/cli.js install chromium"
+    "browser:install": "node node_modules/playwright-core/cli.js install chromium",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check": "npm run format:check && npm run typecheck"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "lynx",
+    "reactlynx",
+    "e2e",
+    "agentic-testing",
+    "openrouter"
+  ],
+  "license": "Apache-2.0",
   "type": "module",
   "dependencies": {
-    "@ai-sdk/openai-compatible": "3.0.63",
-    "@e2e-dev/web": "0.13.0",
     "@lynx-js/react": "0.126.2",
-    "@lynx-js/react-rsbuild-plugin": "0.20.3",
-    "@lynx-js/rspeedy": "0.18.0",
-    "@lynx-js/web-core": "0.26.2",
-    "ai": "7.0.128",
-    "e2e": "0.18.0",
-    "typescript": "5.9.3"
+    "@lynx-js/web-core": "0.26.2"
   },
   "private": true,
   "devDependencies": {
-    "@e2e-dev/decision": "^0.1.0"
+    "@ai-sdk/openai-compatible": "3.0.63",
+    "@ai-sdk/provider": "4.0.22",
+    "@e2e-dev/decision": "0.1.0",
+    "@e2e-dev/web": "0.13.0",
+    "@lynx-js/react-rsbuild-plugin": "0.20.3",
+    "@lynx-js/rspeedy": "0.18.0",
+    "@lynx-js/types": "4.3.0",
+    "@types/node": "22.20.5",
+    "ai": "7.0.128",
+    "e2e": "0.18.0",
+    "prettier": "3.6.2",
+    "typescript": "5.9.3"
+  },
+  "engines": {
+    "node": "^22.22.3 || >=24.8.0"
   }
 }

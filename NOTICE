@@ -1,0 +1,8 @@
+lynx-e2e-demo
+
+Includes code and product photography adapted from lynx-family/lynx-examples,
+distributed under Apache-2.0:
+https://github.com/lynx-family/lynx-examples/tree/main/examples/swiper
+
+See src/swiper/NOTICE.md for the copied files and modifications.
+Third-party packages retain their own licenses in node_modules.

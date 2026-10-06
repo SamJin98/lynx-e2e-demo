@@ -1,0 +1,9 @@
+node_modules/
+dist/
+results/
+screenshots/
+.e2e/
+.env*
+package-lock.json
+LICENSE
+src/swiper/LICENSE

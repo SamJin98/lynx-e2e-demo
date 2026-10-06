@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FORM / STUDIO · Everyday Chair</title>
+    <style>
+      body {
+        margin: 0;
+        background: #e5e7df;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      lynx-view {
+        display: block;
+        width: 440px;
+        height: 820px;
+        box-shadow: 0 20px 70px #1c271b24;
+      }
+    </style>
+  </head>
+  <body>
+    <lynx-view url="/dist/main.web.bundle"></lynx-view>
+    <script
+      type="module"
+      src="/node_modules/@lynx-js/web-core/dist/client_prod/static/js/client.js"
+    ></script>
+    <script type="module" src="/host.js"></script>
+  </body>
+</html>

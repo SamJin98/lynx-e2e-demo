@@ -6,6 +6,5 @@ dist/
 .e2e/
 results/
 screenshots/
-evidence/
 *.log
 .DS_Store

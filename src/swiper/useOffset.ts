@@ -1,6 +1,11 @@
-import { runOnBackground, runOnMainThread, useMainThreadRef } from "@lynx-js/react";
-import type { MainThread } from "@lynx-js/types";
-import { useAnimate } from "./useAnimate";
+// Adapted from lynx-family/lynx-examples (Apache-2.0); see NOTICE.md for modifications.
+import {
+  runOnBackground,
+  runOnMainThread,
+  useMainThreadRef,
+} from '@lynx-js/react';
+import type { MainThread } from '@lynx-js/types';
+import { useAnimate } from './useAnimate';
 
 export function useOffset({
   onOffsetUpdate,
@@ -25,20 +30,20 @@ export function useOffset({
   function updateIndex(index: number) {
     const offset = -index * itemWidth;
     runOnMainThread((value: number) => {
-      "main thread";
+      'main thread';
       cancelAnimate();
       updateOffset(value);
     })(offset);
   }
 
   function calcNearestPage(offset: number) {
-    "main thread";
+    'main thread';
     const nearestPage = Math.round(offset / itemWidth);
     return nearestPage * itemWidth;
   }
 
   function updateOffset(offset: number) {
-    "main thread";
+    'main thread';
 
     const lowerBound = 0;
     const upperBound = -(dataLength - 1) * itemWidth;
@@ -54,28 +59,28 @@ export function useOffset({
   }
 
   function handleTouchStart(e: MainThread.TouchEvent) {
-    "main thread";
+    'main thread';
     touchStartXRef.current = e.touches[0].clientX;
     touchStartCurrentOffsetRef.current = currentOffsetRef.current;
     cancelAnimate();
   }
 
   function handleTouchMove(e: MainThread.TouchEvent) {
-    "main thread";
+    'main thread';
     const touchMoveX = e.touches[0].clientX;
     const deltaX = touchMoveX - touchStartXRef.current;
     updateOffset(touchStartCurrentOffsetRef.current + deltaX);
   }
 
   function handleTouchEnd(e: MainThread.TouchEvent) {
-    "main thread";
+    'main thread';
     touchStartXRef.current = 0;
     touchStartCurrentOffsetRef.current = 0;
     animate({
       from: currentOffsetRef.current,
       to: calcNearestPage(currentOffsetRef.current),
       onUpdate: (offset) => {
-        "main thread";
+        'main thread';
         updateOffset(offset);
       },
       duration,

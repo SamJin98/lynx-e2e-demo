@@ -1,4 +1,5 @@
-import { useMainThreadRef } from "@lynx-js/react";
+// Adapted from lynx-family/lynx-examples (Apache-2.0); see NOTICE.md for modifications.
+import { useMainThreadRef } from '@lynx-js/react';
 
 type AnimationOptions = {
   from: number;
@@ -13,25 +14,25 @@ type AnimationOptions = {
 // Common easing functions
 export const easings = {
   linear: (t: number) => {
-    "main thread";
+    'main thread';
     return t;
   },
   easeInQuad: (t: number) => {
-    "main thread";
+    'main thread';
     return t * t;
   },
   easeOutQuad: (t: number) => {
-    "main thread";
+    'main thread';
     return 1 - (1 - t) * (1 - t);
   },
   easeInOutQuad: (t: number) => {
-    "main thread";
+    'main thread';
     return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
   },
 };
 
 function animateInner(options: AnimationOptions) {
-  "main thread";
+  'main thread';
   const {
     from,
     to,
@@ -46,10 +47,9 @@ function animateInner(options: AnimationOptions) {
   let rafId = 0;
 
   function tick(ts: number) {
-    const progress = Math.max(
-      Math.min(((ts - startTs - delay) * 100) / duration, 100),
-      0,
-    ) / 100;
+    const progress =
+      Math.max(Math.min(((ts - startTs - delay) * 100) / duration, 100), 0) /
+      100;
 
     const easedProgress = easing(progress);
     const currentValue = from + (to - from) * easedProgress;
@@ -88,12 +88,12 @@ export function useAnimate() {
   const lastCancelRef = useMainThreadRef<() => void>();
 
   function cancel() {
-    "main thread";
+    'main thread';
     lastCancelRef.current?.();
   }
 
   function animate(options: AnimationOptions) {
-    "main thread";
+    'main thread';
     cancel();
 
     const { cancel: innerCancel } = animateInner(options);
