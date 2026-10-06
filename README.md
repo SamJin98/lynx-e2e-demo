@@ -49,3 +49,11 @@ Agent 启动脚本使用 --use-system-ca，让 Node 信任 macOS 系统证书，
 录屏已开启：e2e.config.ts 的 video 为 on。每个测试的原始 WebM 在 results/<run>/artifacts/.../video/video.webm，报告记录其路径。2026-10-06 已运行横滑缓存重放并生成视频，未新增模型调用。
 
 横向连续拖动录屏：Horizontal drag moves continuously without clicking pagination 用真实鼠标 down/move/up，不点击分页。检查拖动途中位移在 -300px 与 -100px 之间，再断言图片 2 / 3；视频在 results/horizontal-drag-video。此用例为确定性测试，不调用 AI。
+
+## 完整 Agent 流程
+
+tests/journey.e2e.ts 通过 agent.act 完成拖图、详情展开、材质面板内滚动、规格数量、购物袋调整和移除。2026-10-06 最终关闭操作缓存运行通过，19 次模型调用，31.84 秒。鼠标位移 -315px、0 wheel、0 分页点击；材质面板 scrollTop=180，外层前后均为 190；Sand / Walnut 三件小计 $810，移除后 Bag (0)。results/agent-journey-final 保存报告和完整视频。
+
+AI 使用 e2e 内置 drag 和 scroll_to 工具。为让浏览器观测识别 Lynx 控件，Web 宿主将 accessibility-label 与 button trait 映射为 ARIA 属性；透明图片区域用于内置 drag 定位。鼠标/滚轮到触摸的 Web 适配仍属于本项目，不是 e2e 或 Lynx 原生移动引擎。
+
+npm run test:agent 和 npm run test:cache 已包含完整流程。每阶段限制 4–8 次操作和模型调用；整个流程超时 300 秒，无测试重试。

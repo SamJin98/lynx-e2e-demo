@@ -2,6 +2,21 @@ import http from 'node:http';
 import {readFile} from 'node:fs/promises';
 import path from 'node:path';
 const html=`<!doctype html><html><head><title>FORM / STUDIO · Everyday Chair</title><style>body{margin:0;background:#e5e7df;min-height:100vh;display:flex;align-items:center;justify-content:center}lynx-view{display:block;width:440px;height:820px;box-shadow:0 20px 70px #1c271b24}</style></head><body><lynx-view url="/dist/main.web.bundle"></lynx-view><script type="module" src="/node_modules/@lynx-js/web-core/dist/client_prod/static/js/client.js"></script><script>
+const observedRoots=new WeakSet();
+const syncAccessibility=root=>{
+ root.querySelectorAll('[accessibility-label]').forEach(node=>{
+  node.setAttribute('aria-label',node.getAttribute('accessibility-label'));
+  node.setAttribute('role',node.getAttribute('accessibility-trait')==='button'?'button':node.classList.contains('drag-zone')?'img':'group');
+ });
+ root.querySelectorAll('*').forEach(node=>{if(node.shadowRoot)watchRoot(node.shadowRoot);});
+};
+const watchRoot=root=>{
+ if(observedRoots.has(root)){syncAccessibility(root);return;}
+ observedRoots.add(root);
+ new MutationObserver(()=>syncAccessibility(root)).observe(root,{childList:true,subtree:true,attributes:true,attributeFilter:['accessibility-label','accessibility-trait']});
+ syncAccessibility(root);
+};
+watchRoot(document);
 let lastWheel=0;
 let mouseDrag=null;
 const photoOf=event=>event.composedPath().find(node=>node.classList?.contains('photo'));
