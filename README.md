@@ -45,3 +45,5 @@ Agent 启动脚本使用 --use-system-ca，让 Node 信任 macOS 系统证书，
 当前商品页验证：确定性用例全部通过（含 CDP 触摸）。DeepSeek 两个 AI 用例通过，6 次模型调用，29.62 秒。第二遍通过，但只重放了轮播，购物流程 cache miss 并调用模型 7 次；尚未确认购物流程能稳定重放。报告见 results/agent 和 results/cache。
 
 桌面鼠标适配：商品图区域监听 mouse pointerdown/move/up，转换为官方轮播的 touch 事件。Pointer capture 处理拖出区域后的松手，pointercancel、失焦时结束拖动。支持左拖、右拖和抓取光标。确定性测试已验证上述鼠标行为，现有 wheel、CDP touch 和购物操作均通过。
+
+录屏已开启：e2e.config.ts 的 video 为 on。每个测试的原始 WebM 在 results/<run>/artifacts/.../video/video.webm，报告记录其路径。2026-10-06 已运行横滑缓存重放并生成视频，未新增模型调用。

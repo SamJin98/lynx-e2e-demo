@@ -12,7 +12,7 @@ const openrouter = createOpenAICompatible({
 });
 export default {
   targets: [{name: 'lynx-web', engine, app: {url: 'http://127.0.0.1:4180', command: {executable: 'node', args: ['server.mjs']}}}],
-  workers: 1, retries: 0, timeout: 120000, trace: 'on', cache: 'read-write', assertionTimeout: 5000,
+  workers: 1, retries: 0, timeout: 120000, trace: 'on', video: 'on', cache: 'read-write', assertionTimeout: 5000,
   agents: {default: {
     model: openrouter.chatModel(model),
     providerOptions: model === 'openai/gpt-6-luna' ? {openaiCompatible: {reasoningEffort: 'none'}} : {},
