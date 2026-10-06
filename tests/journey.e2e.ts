@@ -11,11 +11,11 @@ test('Agent complete product journey with continuous drag and nested scrolling',
   routing.push({instruction,agent:decisions&&selected==='default'?'decisions':'deepseek',...(deepseekOnly?{reason:'operation unavailable in decision executor'}:{})});
   try {await agent.act(instruction,{...limits,agent:selected});}
   catch(error){
-   if(!decisions||selected==='deepseek'||(error as any).code!=='AUTOMATION_UNSUPPORTED')throw error;
+   if(!decisions||selected==='deepseek'||!['AUTOMATION_UNSUPPORTED','MODEL_PROVIDER_FAILED'].includes((error as any).code))throw error;
    if(verify){
-    try {await verify();routing.push({instruction,agent:'assertion',reason:'Decisions blocked but exact postcondition is satisfied'});return;}catch{}
+    try {await verify();routing.push({instruction,agent:'assertion',reason:`${(error as any).code}; exact postcondition is satisfied`});return;}catch{}
    }
-   routing.push({instruction,agent:'deepseek',reason:'Decisions blocked; continue from current page'});
+   routing.push({instruction,agent:'deepseek',reason:`${(error as any).code}; continue from current page`});
    await agent.act('Complete the remaining requirements of this task from the current page. If already satisfied, verify without repeating or undoing completed actions. Task: '+instruction,{...limits,agent:'deepseek'});
   }
  };
@@ -43,7 +43,7 @@ test('Agent complete product journey with continuous drag and nested scrolling',
   expect(await page.locator('#product-scroll').evaluate(e=>e.scrollTop)).toBeGreaterThan(0);
  });
  await expect(browser.locator('#product-details')).toHaveText('Solid wood frame. Upholstered seat. Width 54 cm · Depth 58 cm · Height 78 cm. Wipe clean with a soft, dry cloth.');
- await act('Open Frame material (Choose frame).',{maxSteps:4,maxModelCalls:4},false,async()=>{await expect(browser.locator('#frame-options')).toBeVisible();});
+ await act('Open Frame material (Choose frame). The task is complete when the Choose your frame panel with frame options is visible. Do not tap Choose frame again after the panel opens.',{maxSteps:4,maxModelCalls:4},false,async()=>{await expect(browser.locator('#frame-options')).toBeVisible();});
  await expect(browser.locator('#frame-options')).toBeVisible();
  const outerBefore=await page.locator('#product-scroll').evaluate(e=>e.scrollTop);
  await act('Scroll down inside the frame options panel until Choose Walnut frame is visible. Use scroll_to for Walnut or scroll the panel. Do not select any frame yet.',{maxSteps:6,maxModelCalls:6},true);
@@ -51,8 +51,8 @@ test('Agent complete product journey with continuous drag and nested scrolling',
  const outerAfter=await page.locator('#product-scroll').evaluate(e=>e.scrollTop);
  expect(innerTop).toBeGreaterThan(0);
  expect(outerAfter).toBe(outerBefore);
- await act('Choose Walnut frame.',{maxSteps:4,maxModelCalls:4},false,async()=>{await expect(browser.locator('#selected-frame')).toHaveText('Walnut ›');});
- await expect(browser.locator('#selected-frame')).toHaveText('Walnut ›');
+ await act('Choose Walnut frame and leave the frame panel closed. Stop when Frame material shows Walnut and no Close panel control is present. Do not reopen Choose frame.',{maxSteps:4,maxModelCalls:4},false,async()=>{await expect(browser.locator('#selected-frame')).toHaveText('Walnut ›');await expect(browser.locator('[accessibility-label="Close panel"]')).toHaveCount(0);});
+ await expect(browser.locator('#selected-frame')).toHaveText('Walnut ›');await expect(browser.locator('[accessibility-label="Close panel"]')).toHaveCount(0);
  await act('Select Sand finish, set quantity to 2, and Add to bag.',{maxSteps:8,maxModelCalls:8},false,async()=>{await expect(browser.locator('#bag-count')).toHaveText('Bag (2)');await expect(browser.locator('#confirmation')).toHaveText('2 × Sand added to bag');});
  await expect(browser.locator('#bag-count')).toHaveText('Bag (2)');
  await expect(browser.locator('#confirmation')).toHaveText('2 × Sand added to bag');

@@ -78,8 +78,16 @@ NODE_OPTIONS=--use-system-ca E2E_TELEMETRY_DISABLED=1 E2E_DECISIONS=1 npx e2e ru
 
 ## 完整混合流程接手规则
 
-两版使用同一个 tests/journey.e2e.ts 和相同业务断言。Decisions 模式的拖拽、指定材质面板滚动直接交给 DeepSeek。其他步骤先用 Decisions；仅 AUTOMATION_UNSUPPORTED 可接手，真实产品失败和 provider 错误继续抛出。接手前检查精确目标状态，已满足则继续，否则让 DeepSeek 从当前页面完成剩余要求，避免重复操作。截图和 agent-journey-routing.json 记录路由。
+两版使用同一个 tests/journey.e2e.ts 和相同业务断言。Decisions 模式的拖拽、指定材质面板滚动直接交给 DeepSeek。其他步骤先用 Decisions；AUTOMATION_UNSUPPORTED 和 MODEL_PROVIDER_FAILED 可接手；真实产品失败继续抛出，接口错误保留在步骤报告中。接手前检查精确目标状态，已满足则继续，否则让 DeepSeek 从当前页面完成剩余要求，避免重复操作。截图和 agent-journey-routing.json 记录路由。
 
 2026-10-06 results/decisions-hybrid-final 完整流程通过，129.03 秒，27 次 Decisions、7 次 DeepSeek 调用。Agent 的部分完成确认仍是 blocked，由原有精确状态检查确认结果；不能称为每个 Decisions 步骤都通过。屏幕外控件点击等待导致速度明显低于之前纯 DeepSeek。所有原业务断言保留。
 
 同一份最终测试的纯 DeepSeek 复测（results/deepseek-hybrid-baseline）通过，39.67 秒、18 次调用。两版均关闭 e2e 操作缓存，provider prompt cache 保持启用；这是单轮完整流程比较，不是统计速度基准。
+
+## Decisions 耗时排查与复测
+
+129.03 秒那轮的两段耗时 47.709 秒和 45.854 秒，存在六次 14.76 秒左右的点击等待（合计约 88.6 秒）。日志显示模型反复点击弹层遮挡的 Choose frame，并在选择 Walnut 后重新打开面板，导致随后 Sand 也被遮挡。不是这六次请求的模型推理耗时。
+
+Web 宿主现将弹层标为 aria-modal dialog，并将遮挡的 product-scroll 设为 inert/aria-hidden；面板关闭后恢复。两版共用此修正。测试明确要求 Walnut 选择后面板关闭，并保留所有业务、手势和嵌套滚动断言。
+
+复测保留全部失败：decisions-modal-fixed 为 29.35 秒通过和接口失败；decisions-modal-confirm 确认 OpenRouter HTTP 502；deepseek-modal-fixed 为 21.37 秒通过和错误工具调用导致 Bag (0) 断言失败。加入接口失败接手后，decisions-resilient-final 两轮完整通过，22.58 / 17.96 秒，关闭 e2e 操作缓存。两轮都出现 HTTP 502，但精确状态确认任务已完成后继续；不能说纯 Decisions 全部步骤成功。现阶段速度接近纯 DeepSeek，样本不足以断言稳定更快。

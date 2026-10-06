@@ -8,6 +8,10 @@ const syncAccessibility=root=>{
   node.setAttribute('aria-label',node.getAttribute('accessibility-label'));
   node.setAttribute('role',node.getAttribute('accessibility-trait')==='button'?'button':node.classList.contains('drag-zone')?'img':'group');
  });
+ const panel=root.querySelector('.panel');
+ const content=root.querySelector('#product-scroll');
+ if(content){content.inert=Boolean(panel);content.setAttribute('aria-hidden',String(Boolean(panel)));}
+ if(panel){panel.setAttribute('role','dialog');panel.setAttribute('aria-modal','true');panel.setAttribute('aria-label',panel.querySelector('.panel-title')?.textContent||'Panel');}
  root.querySelectorAll('*').forEach(node=>{if(node.shadowRoot)watchRoot(node.shadowRoot);});
 };
 const watchRoot=root=>{
