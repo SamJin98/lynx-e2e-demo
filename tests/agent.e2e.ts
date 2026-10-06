@@ -1,14 +1,15 @@
 import {test} from '@e2e-dev/web';
 import {expect} from 'e2e';
-test('Agent opens the three-level Lynx menu', async ({app, browser, agent}) => {
-  await app.open('/');
-  await expect(browser.locator('lynx-view x-text.title')).toHaveText('Lynx scroll and menu');
-  await agent.act('Tap Account, then Settings, then Notifications.');
-  await expect(browser.locator('#selected')).toHaveText('Selected: Notifications');
+test('Agent swipes the product image carousel',async({app,browser,agent})=>{
+ await app.open('/');
+ await expect(browser.locator('.title')).toHaveText('The Everyday Chair');
+ await agent.act('Swipe left once on the product image carousel to show the second image.');
+ await expect(browser.locator('#image-index')).toHaveText('2 / 3');
 });
-test('Agent scrolls the Lynx list to Item 60', async ({app, browser, agent}) => {
-  await app.open('/');
-  await expect(browser.locator('scroll-view#items')).toBeVisible();
-  await agent.act('Scroll inside the list until Item 60 is fully visible, then tap Item 60.', {maxSteps: 16, maxModelCalls: 16});
-  await expect(browser.locator('#selected')).toHaveText('Selected: Item 60');
+test('Agent selects finish and adds two chairs to bag',async({app,browser,agent})=>{
+ await app.open('/');
+ await expect(browser.locator('.title')).toHaveText('The Everyday Chair');
+ await agent.act('Select the Sand finish, increase quantity to 2, then tap Add to bag.');
+ await expect(browser.locator('#bag-count')).toHaveText('Bag (2)');
+ await expect(browser.locator('#confirmation')).toHaveText('2 × Sand added to bag');
 });

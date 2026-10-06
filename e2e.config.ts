@@ -17,6 +17,6 @@ export default {
     model: openrouter.chatModel(model),
     providerOptions: model === 'openai/gpt-6-luna' ? {openaiCompatible: {reasoningEffort: 'none'}} : {},
     maxSteps: 16, maxModelCalls: 16, maxInputTokens: 16000,
-    context: 'This is a ReactLynx app. Controls use accessibility-label attributes. The scroll-view contains Item 1 to Item 80.',
+    context: 'This is a furniture product detail page. Swipe the product image carousel horizontally; use finish options, quantity buttons, Add to bag, and Product details. Controls have accessibility-label attributes',
   }},
 };

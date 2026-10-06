@@ -1,6 +1,6 @@
 # lynx-e2e-demo
 
-真实 ReactLynx + Lynx for Web + tester-army/e2e 本地实验。包含三级菜单和 80 项 scroll-view。范围是 Web runtime，尚未验证 iOS/Android 原生 Lynx、嵌套滚动或虚拟列表。
+真实 ReactLynx + Lynx for Web + tester-army/e2e 本地实验。当前为家具商品详情页：横向图片轮播、Finish、数量、购物袋和可展开详情。范围是 Web runtime，尚未验证 iOS/Android 原生 Lynx、嵌套滚动或虚拟列表。
 
 ## 启动与测试
 
@@ -26,12 +26,20 @@ npm run test:cache
 
 cache 为 read-write；成功操作通过后续精确断言确认后保存。test:cache 使用 strict-cache，失效记录会报错；没有记录的首次调用仍可能使用模型，因此它不是离线或零费用保证。
 
-本地报告：results/local/report.json；Agent 报告：results/agent/report.json；缓存复测报告：results/cache/report.json。screenshots 和 evidence 保存本地截图及滚动位置。
+本地报告：results/local/report.json；Agent 报告：results/agent/report.json；缓存复测报告：results/cache/report.json。screenshots 保存页面截图。
 
 cloud-experiment 保留原始云端 README、报告、截图与脚本，属于历史证据，不能当作本地运行结果。原 reproduce.sh 需要在原始包结构下执行。
 
 ## 本地验证（2026-10-06）
 
-macOS arm64、Node.js v22.23.1、Chromium：三级菜单和滚动测试通过。13 次 swipe 到 Item 60，外层 window.scrollY 前后均为 0。已使用本地 OPENROUTER_API_KEY 运行 DeepSeek V4.1 Flash：菜单与滚动 AI 测试通过，共 11 次模型调用，测试耗时 18.22 秒。第二遍缓存复测通过，2 次操作重放，模型调用及 modelTokens 均为 0，耗时 3.01 秒。Luna 通过 Chat Completions 调用，reasoningEffort 设置为 none，以支持工具调用。
+macOS arm64、Node.js v22.23.1、Chromium。旧版本菜单与深列表验证结果属于历史实验；当前商品详情页另行验证横向轮播、分页点击、规格、数量、购物袋和详情展开。
 
-Agent 启动脚本使用 --use-system-ca，让 Node 信任 macOS 系统证书，保持 TLS 校验开启。
+## 官方示例来源
+
+基于 https://lynxjs.org/learn/product-detail.html 的商品详情方向，采用 lynx-family/lynx-examples/examples/swiper 的主线程轮播 hooks 和官方配图，保留 Apache-2.0 LICENSE，见 src/swiper/NOTICE.md。商品名称、价格和规格是本项目的演示数据。颜色选项记录选择状态，图片轮播是独立操作。
+
+Web engine 的 swipe 发送 wheel，官方组件监听 touch。server.mjs 将轮播区域的横向 wheel 转成 touch 事件，竖向 wheel 继续交给页面滚动。确定性测试分别覆盖 e2e wheel 适配和 Chromium CDP 真实触摸。修复了触摸吸附动画覆盖分页点击的问题。此适配只应用于 Web 预览，尚未运行原生设备。
+
+Agent 启动脚本使用 --use-system-ca，让 Node 信任 macOS 系统证书，保持 TLS 校验开启。Luna 的 Chat Completions reasoningEffort 设置为 none。
+
+当前商品页验证：确定性用例全部通过（含 CDP 触摸）。DeepSeek 两个 AI 用例通过，6 次模型调用，29.62 秒。第二遍通过，但只重放了轮播，购物流程 cache miss 并调用模型 7 次；尚未确认购物流程能稳定重放。报告见 results/agent 和 results/cache。

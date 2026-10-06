@@ -1,0 +1,1 @@
+Adapted from lynx-family/lynx-examples/examples/swiper/src/Swiper, Apache-2.0. Source: https://github.com/lynx-family/lynx-examples/tree/main/examples/swiper . Product photography in src/assets is from that official example.
