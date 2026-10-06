@@ -32,4 +32,6 @@ cloud-experiment 保留原始云端 README、报告、截图与脚本，属于�
 
 ## 本地验证（2026-10-06）
 
-macOS arm64、Node.js v22.23.1、Chromium：三级菜单和滚动测试通过。13 次 swipe 到 Item 60，外层 window.scrollY 前后均为 0。未提供 OPENROUTER_API_KEY，尚未运行真实 AI 操作或缓存复测。Luna 通过 Chat Completions 调用，reasoningEffort 设置为 none，以支持工具调用。
+macOS arm64、Node.js v22.23.1、Chromium：三级菜单和滚动测试通过。13 次 swipe 到 Item 60，外层 window.scrollY 前后均为 0。已使用本地 OPENROUTER_API_KEY 运行 DeepSeek V4.1 Flash：菜单与滚动 AI 测试通过，共 11 次模型调用，测试耗时 18.22 秒。第二遍缓存复测通过，2 次操作重放，模型调用及 modelTokens 均为 0，耗时 3.01 秒。Luna 通过 Chat Completions 调用，reasoningEffort 设置为 none，以支持工具调用。
+
+Agent 启动脚本使用 --use-system-ca，让 Node 信任 macOS 系统证书，保持 TLS 校验开启。
