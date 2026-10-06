@@ -99,3 +99,5 @@ Web 宿主现将弹层标为 aria-modal dialog，并将遮挡的 product-scroll 
 ## 下单展示录屏
 
 独立用例 tests/order-demo.e2e.ts 只展示选 Sand、加入两件、购物袋改成三件、提交 $720 的 Sand / Oak 演示订单及 confetti，不包含拖图、材质面板或移除再加入。两版共用该用例，关闭操作缓存。2026-10-06 Decisions 完整通过 9.97 秒、12 次 Decisions 调用，本轮未用 DeepSeek；纯 DeepSeek 完整通过 23.62 秒、7 次调用。含结尾 3 秒庆祝展示，仅为单轮耗时。原始视频和报告在 results/order-demo-decisions、results/order-demo-deepseek。
+
+下单展示现已恢复开头的商品图真实横向拖拽。两版共用同一用例：拖到图 2、选 Sand、加购两件、购物袋改为三件、提交 $720 订单和 confetti。2026-10-06 两版手势记录均为鼠标 -315px、0 wheel、0 分页点击；Decisions 版拖拽由 DeepSeek 执行（2 次调用），其余下单为 Decisions（12 次调用），完整通过 11.92 秒；纯 DeepSeek（9 次调用）通过 16.96 秒。报告视频在 results/order-drag-decisions 和 results/order-drag-deepseek。前一版未包含横向拖拽的录屏为历史版本。

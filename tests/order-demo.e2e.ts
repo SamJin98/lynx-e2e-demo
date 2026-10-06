@@ -1,6 +1,7 @@
 import {test,surfaceOf} from '@e2e-dev/web';
 import {expect} from 'e2e';
 import {engine} from '../engine.ts';
+import {mkdir,writeFile} from 'node:fs/promises';
 
 test('Place order and celebrate',{agent:'default'},async({app,browser,agent})=>{
  const page=surfaceOf(engine)!.page();
@@ -13,8 +14,26 @@ test('Place order and celebrate',{agent:'default'},async({app,browser,agent})=>{
   }
   await verify();
  };
+ await page.addInitScript(()=>{
+  const audit={drags:[] as number[],wheels:0,paginationClicks:0};
+  (window as any).__orderGesture=audit;
+  let start:number|undefined;
+  const inPhoto=(e:Event)=>e.composedPath().some((n:any)=>n.classList?.contains('photo'));
+  document.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse'&&inPhoto(e))start=e.clientX;},true);
+  document.addEventListener('pointerup',e=>{if(start!==undefined){audit.drags.push(e.clientX-start);start=undefined;}},true);
+  document.addEventListener('wheel',e=>{if(inPhoto(e))audit.wheels++;},true);
+  document.addEventListener('click',e=>{if(e.composedPath().some((n:any)=>n.classList?.contains('dot')))audit.paginationClicks++;},true);
+ });
  await app.open('/');
  await expect(browser.locator('.title')).toHaveText('The Everyday Chair');
+ await agent.act('Drag the Right side of product image onto the Left side of product image to view image 2. Use the drag tool on the two named image regions. Do not scroll or tap pagination.',{agent:process.env.E2E_DECISIONS==='1'?'deepseek':'default',maxSteps:6,maxModelCalls:6});
+ await expect(browser.locator('#image-index')).toHaveText('2 / 3');
+ const gestures=await page.evaluate(()=>(window as any).__orderGesture);
+ expect(gestures.drags.some((distance:number)=>distance < -220)).toBe(true);
+ expect(gestures.wheels).toBe(0);
+ expect(gestures.paginationClicks).toBe(0);
+ await mkdir('screenshots',{recursive:true});
+ await writeFile(`screenshots/order-drag-${process.env.E2E_DECISIONS==='1'?'decisions':'deepseek'}.json`,JSON.stringify(gestures,null,2));
  await act('Select Sand finish, set quantity to 2, then Add to bag. Stop when Bag (2) and 2 × Sand added to bag are displayed.',async()=>{
   await expect(browser.locator('#bag-count')).toHaveText('Bag (2)');
   await expect(browser.locator('#confirmation')).toHaveText('2 × Sand added to bag');
