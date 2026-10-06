@@ -47,3 +47,5 @@ Agent 启动脚本使用 --use-system-ca，让 Node 信任 macOS 系统证书，
 桌面鼠标适配：商品图区域监听 mouse pointerdown/move/up，转换为官方轮播的 touch 事件。Pointer capture 处理拖出区域后的松手，pointercancel、失焦时结束拖动。支持左拖、右拖和抓取光标。确定性测试已验证上述鼠标行为，现有 wheel、CDP touch 和购物操作均通过。
 
 录屏已开启：e2e.config.ts 的 video 为 on。每个测试的原始 WebM 在 results/<run>/artifacts/.../video/video.webm，报告记录其路径。2026-10-06 已运行横滑缓存重放并生成视频，未新增模型调用。
+
+横向连续拖动录屏：Horizontal drag moves continuously without clicking pagination 用真实鼠标 down/move/up，不点击分页。检查拖动途中位移在 -300px 与 -100px 之间，再断言图片 2 / 3；视频在 results/horizontal-drag-video。此用例为确定性测试，不调用 AI。
