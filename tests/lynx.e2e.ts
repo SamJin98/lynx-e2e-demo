@@ -1,0 +1,60 @@
+import {test,surfaceOf} from '@e2e-dev/web';
+import {expect} from 'e2e';
+import {engine} from '../engine.ts';
+import {mkdir,writeFile} from 'node:fs/promises';
+const stage=process.env.EXPERIMENT_STAGE||'local';
+test('Lynx three-level menu updates ReactLynx state',async({app,browser})=>{
+ await mkdir('screenshots',{recursive:true});
+ await mkdir('evidence',{recursive:true});
+ await app.open('/');
+ await expect(browser.locator('lynx-view x-text.title')).toHaveText('Lynx scroll and menu');
+ await expect(browser.locator('[accessibility-label="Settings"]')).toHaveCount(0);
+ await browser.locator('[accessibility-label="Account"]').tap();
+ await expect(browser.locator('[accessibility-label="Settings"]')).toBeVisible();
+ await browser.locator('[accessibility-label="Settings"]').tap();
+ await expect(browser.locator('[accessibility-label="Notifications"]')).toBeVisible();
+ await browser.locator('[accessibility-label="Notifications"]').tap();
+ await expect(browser.locator('#selected')).toHaveText('Selected: Notifications');
+ await mkdir('screenshots',{recursive:true});
+ await surfaceOf(engine)!.page().screenshot({path:`screenshots/${stage}-menu.png`});
+});
+test('Lynx scroll-view reaches Item 60 without moving outer page',async({app,browser})=>{
+ await mkdir('screenshots',{recursive:true});
+ await mkdir('evidence',{recursive:true});
+ await app.open('/');
+ const list=browser.locator('scroll-view#items');
+ const item=browser.locator('[accessibility-label="Item 60"]');
+ await expect(list).toBeVisible();
+ const page=surfaceOf(engine)!.page();
+ const before=await page.evaluate(()=>window.scrollY);
+ const positions=()=>page.locator('scroll-view#items').evaluate(e=>{
+  const nodes=[e,...Array.from(e.shadowRoot?.querySelectorAll('*')||[])];
+  return nodes.filter(n=>n.scrollHeight>n.clientHeight+10).map(n=>({tag:n.tagName,id:n.id,top:n.scrollTop,height:n.clientHeight,scrollHeight:n.scrollHeight}));
+ });
+ const initial=await positions();
+ await list.swipe({direction:'down',momentum:'slow'});
+ await page.waitForTimeout(150);
+ const moved=await positions();
+ expect(moved.some((n,i)=>n.top>(initial[i]?.top||0))).toBe(true);
+ const targetBox=()=>page.locator('[accessibility-label="Item 60"]').evaluate(e=>({top:e.getBoundingClientRect().top,bottom:e.getBoundingClientRect().bottom}));
+ const listBox=await list.boundingBox();
+ let gestures=1;
+ for(;gestures<30;gestures++){
+  const b=await targetBox();
+  if(listBox&&b.top>=listBox.y&&b.bottom<=listBox.y+listBox.height)break;
+  await list.swipe({direction:b.top<listBox!.y?'up':'down',momentum:'slow'});
+ await page.waitForTimeout(150);
+ }
+ const beforeTap=await targetBox();
+ expect(gestures).toBeLessThan(30);
+ expect(beforeTap.top).toBeGreaterThanOrEqual(listBox!.y);
+ expect(beforeTap.bottom).toBeLessThanOrEqual(listBox!.y+listBox!.height);
+ const atTarget=await positions();
+ await list.scrollUntilVisible(item,{direction:'down',timeout:30000});
+ await item.tap();
+ await page.screenshot({path:`screenshots/${stage}-scroll.png`});
+ const after=await page.evaluate(()=>window.scrollY);
+ expect(after).toBe(before);
+ await writeFile(`evidence/${stage}-scroll-position.json`,JSON.stringify({outerBefore:before,outerAfter:after,initial,afterFirstSwipe:moved,atTarget,gestures,targetBeforeTap:beforeTap,listBox},null,2));
+ await expect(browser.locator('#selected')).toHaveText(process.env.INTENTIONAL_FAIL==='1'?'Selected: Item 61':'Selected: Item 60');
+});

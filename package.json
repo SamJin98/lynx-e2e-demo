@@ -1,0 +1,30 @@
+{
+  "name": "lynx-e2e-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "rspeedy build",
+    "dev": "npm run build && node server.mjs",
+    "test": "npm run build && e2e run tests/lynx.e2e.ts --output results/local",
+    "test:agent": "npm run build && node scripts/agent-run.mjs",
+    "test:cache": "npm run build && node scripts/agent-run.mjs --strict-cache",
+    "browser:install": "node node_modules/playwright-core/cli.js install chromium"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@ai-sdk/openai-compatible": "3.0.63",
+    "@e2e-dev/web": "0.13.0",
+    "@lynx-js/react": "0.126.2",
+    "@lynx-js/react-rsbuild-plugin": "0.20.3",
+    "@lynx-js/rspeedy": "0.18.0",
+    "@lynx-js/web-core": "0.26.2",
+    "ai": "7.0.128",
+    "e2e": "0.18.0",
+    "typescript": "5.9.3"
+  },
+  "private": true
+}

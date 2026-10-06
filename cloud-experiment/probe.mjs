@@ -1,0 +1,11 @@
+import {spawn} from 'node:child_process';
+const server=spawn(process.execPath,['server.mjs']);
+await new Promise(r=>setTimeout(r,300));
+import {chromium} from 'playwright-core';
+import {writeFile} from 'node:fs/promises';
+const b=await chromium.launch({headless:true});const p=await b.newPage();
+const errors=[];p.on('response',r=>console.log('HTTP',r.status(),r.url()));p.on('requestfailed',r=>console.log('FAILED',r.url(),r.failure()));p.on('pageerror',e=>errors.push(e.message));p.on('console',m=>console.log(m.type(),m.text()));
+await p.goto('http://127.0.0.1:4180');await p.waitForTimeout(10000);console.log('FRAMES',p.frames().map(f=>f.url()));console.log('SHADOW',await p.locator('lynx-view').evaluate(e=>e.shadowRoot?.innerHTML));
+console.log('TEXT',await p.locator('body').innerText());console.log('BUTTONS',await p.getByRole('button').count());
+await writeFile('evidence/dom.html',await p.content());await writeFile('evidence/browser-errors.json',JSON.stringify(errors));
+await p.screenshot({path:'evidence/initial.png'});await b.close();server.kill();

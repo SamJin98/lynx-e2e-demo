@@ -1,0 +1,7 @@
+{
+  "platform": "Linux-6.18.44-x86_64-with-glibc2.39",
+  "cwd": "/workspace/scratch/36affdb2544a/lynx-e2e-cloud",
+  "node": "24.19.0",
+  "nativeDeviceAvailable": false,
+  "modelConnectionConfigured": false
+}

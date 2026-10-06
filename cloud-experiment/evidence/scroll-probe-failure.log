@@ -1,0 +1,34 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  e2e v0.18.0 /workspace/scratch/36affdb2544a/lynx-e2e-cloud
+      run 01a11316-51a2-7907-8915-ec9042b0ddaa · targets: lynx-web
+
+ ✓ target "lynx-web" command ready 96ms
+ ❯ |lynx-web| tests/lynx.e2e.ts (2 tests | 1 failed) 2.44s
+   ✓ Lynx three-level menu updates ReactLynx state 745ms
+   × Lynx scroll-view reaches Item 60 without moving outer page 1.70s
+     → expected 120 to be greater than or equal to 227
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |lynx-web| tests/lynx.e2e.ts > Lynx scroll-view reaches Item 60 without moving outer page
+ASSERTION_FAILED: expected 120 to be greater than or equal to 227
+ ❯ tests/lynx.e2e.ts:44:24
+     42|  const beforeTap=await targetBox();
+     43|  expect(gestures).toBeLessThan(30);
+     44|  expect(beforeTap.top).toBeGreaterThanOrEqual(listBox!.y);
+       |                        ^
+     45|  expect(beforeTap.bottom).toBeLessThanOrEqual(listBox!.y+listBox!.hei…
+     46|  const atTarget=await positions();
+ ❯ at http://127.0.0.1:4180/
+ ❯ screen results/pass/artifacts/lynx-web/tests_lynx.e2e.ts__Lynx_20scroll-view_20reaches_20Item_2060_20without_20moving_20outer_20page-5e73f424/default/attempt-0/failure/screen.txt
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 0 passed (1)
+      Tests  1 failed | 1 passed (2)
+   Start at  14:19:52
+   Duration  3.06s (startup 96ms)
+     Report  results/pass/report.json
+

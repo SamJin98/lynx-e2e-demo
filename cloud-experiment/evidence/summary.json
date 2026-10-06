@@ -1,0 +1,66 @@
+[
+  {
+    "stage": "pass",
+    "status": "passed",
+    "exitCode": 0,
+    "summary": {
+      "discovered": 2,
+      "selected": 2,
+      "executed": 2,
+      "passed": 2,
+      "failed": 0,
+      "interrupted": 0,
+      "flaky": 0,
+      "skipped": 0
+    },
+    "durationMs": 4789
+  },
+  {
+    "stage": "fail",
+    "status": "failed",
+    "exitCode": 1,
+    "summary": {
+      "discovered": 2,
+      "selected": 2,
+      "executed": 2,
+      "passed": 1,
+      "failed": 1,
+      "interrupted": 0,
+      "flaky": 0,
+      "skipped": 0
+    },
+    "durationMs": 10011
+  },
+  {
+    "stage": "recovered",
+    "status": "passed",
+    "exitCode": 0,
+    "summary": {
+      "discovered": 2,
+      "selected": 2,
+      "executed": 2,
+      "passed": 2,
+      "failed": 0,
+      "interrupted": 0,
+      "flaky": 0,
+      "skipped": 0
+    },
+    "durationMs": 4723
+  },
+  {
+    "stage": "clean",
+    "status": "passed",
+    "exitCode": 0,
+    "summary": {
+      "discovered": 2,
+      "selected": 2,
+      "executed": 2,
+      "passed": 2,
+      "failed": 0,
+      "interrupted": 0,
+      "flaky": 0,
+      "skipped": 0
+    },
+    "durationMs": 5005
+  }
+]

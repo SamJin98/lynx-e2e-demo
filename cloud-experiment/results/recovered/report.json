@@ -1,0 +1,646 @@
+{
+  "schemaVersion": "report-1",
+  "run": {
+    "id": "01a11316-cc19-75d2-b960-9d334dbc39fe",
+    "specVersion": "0.1",
+    "runner": {
+      "name": "e2e",
+      "version": "0.18.0"
+    },
+    "status": "passed",
+    "exitCode": 0,
+    "startedAt": "2026-10-06T21:20:23.891Z",
+    "finishedAt": "2026-10-06T21:20:28.614Z",
+    "project": {
+      "id": "lynx-e2e-cloud",
+      "configDigest": "6aa9b9e8ee0a3d2b7ccb0f32729c1bd572c8e7cdc2004c7ffd3e8038437269f8"
+    },
+    "environment": {
+      "ci": false,
+      "trustNoticeShown": false,
+      "os": "linux 6.18.44",
+      "arch": "x64",
+      "runtime": "node v24.19.0"
+    },
+    "targets": [
+      {
+        "id": "lynx-web",
+        "index": 0,
+        "platform": "web",
+        "baseOrigin": "http://127.0.0.1:4180",
+        "environment": "test",
+        "engine": {
+          "name": "web",
+          "version": "0.13.0",
+          "spiVersion": 1
+        },
+        "capabilities": [
+          "actions",
+          "artifacts",
+          "browser",
+          "keyboard",
+          "location",
+          "observation",
+          "pointer",
+          "state"
+        ],
+        "artifactCapabilities": [
+          "screenshot",
+          "trace",
+          "video"
+        ],
+        "stateCapability": true
+      }
+    ],
+    "serialGroups": [],
+    "results": [
+      {
+        "id": "57bc3bb3eee93b323e92be5b7c0713cd62027f184eecd498311bcb1e51dec874",
+        "testId": "tests/lynx.e2e.ts::Lynx%20three-level%20menu%20updates%20ReactLynx%20state",
+        "kind": "test",
+        "declarationIndex": 0,
+        "titlePath": [
+          "Lynx three-level menu updates ReactLynx state"
+        ],
+        "file": "tests/lynx.e2e.ts",
+        "source": {
+          "file": "tests/lynx.e2e.ts",
+          "line": 6,
+          "column": 1
+        },
+        "targetId": "lynx-web",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a11316-cf50-70a3-a6ee-4233e3ba9f46",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-06T21:20:24.400Z",
+            "durationMs": 704,
+            "artifacts": [
+              {
+                "id": "01a11316-cf50-70a3-a6ee-4233e3ba9f46:artifact:0",
+                "kind": "trace",
+                "mediaType": "application/zip",
+                "redaction": "not-required",
+                "producer": {
+                  "kind": "attempt"
+                },
+                "path": "lynx-web/tests_lynx.e2e.ts__Lynx_20three-level_20menu_20updates_20ReactLynx_20state-b2468881/default/attempt-0/trace/trace.zip",
+                "size": 292961,
+                "sha256": "e9d046242fabaf51f5ef91b838c3509aca1029107b21d84912b5eaddf794d87a"
+              }
+            ],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": [
+              {
+                "id": "01a11316-cf50-70a3-a6ee-4233e3ba9f46:0",
+                "index": 0,
+                "kind": "app",
+                "api": "app.open",
+                "label": "/",
+                "status": "passed",
+                "startedAt": "2026-10-06T21:20:24.475Z",
+                "durationMs": 81,
+                "events": [],
+                "artifacts": [],
+                "source": {
+                  "file": "tests/lynx.e2e.ts",
+                  "line": 7,
+                  "column": 12
+                }
+              },
+              {
+                "id": "01a11316-cf50-70a3-a6ee-4233e3ba9f46:1",
+                "index": 1,
+                "kind": "assertion",
+                "api": "expect.toHaveText",
+                "label": "locator(\"lynx-view x-text.title\")",
+                "status": "passed",
+                "startedAt": "2026-10-06T21:20:24.558Z",
+                "durationMs": 64,
+                "events": [],
+                "artifacts": [],
+                "source": {
+                  "file": "tests/lynx.e2e.ts",
+                  "line": 8,
+                  "column": 58
+                }
+              },
+              {
+                "id": "01a11316-cf50-70a3-a6ee-4233e3ba9f46:2",
+                "index": 2,
+                "kind": "assertion",
+                "api": "expect.toHaveCount",
+                "label": "locator(\"[accessibility-label=\\\"Settings\\\"]\")",
+                "status": "passed",
+                "startedAt": "2026-10-06T21:20:24.623Z",
+                "durationMs": 13,
+                "events": [],
+                "artifacts": [],
+                "source": {
+                  "file": "tests/lynx.e2e.ts",
+                  "line": 9,
+                  "column": 68
+                }
+              },
+              {
+                "id": "01a11316-cf50-70a3-a6ee-4233e3ba9f46:3",
+                "index": 3,
+                "kind": "locator",
+                "api": "locator.tap",
+                "label": "locator(\"[accessibility-label=\\\"Account\\\"]\")",
+                "status": "passed",
+                "startedAt": "2026-10-06T21:20:24.636Z",
+                "durationMs": 62,
+                "events": [],
+                "artifacts": [],
+                "source": {
+                  "file": "tests/lynx.e2e.ts",
+                  "line": 10,
+                  "column": 59
+                }
+              },
+              {
+                "id": "01a11316-cf50-70a3-a6ee-4233e3ba9f46:4",
+                "index": 4,
+                "kind": "assertion",
+                "api": "expect.toBeVisible",
+                "label": "locator(\"[accessibility-label=\\\"Settings\\\"]\")",
+                "status": "passed",
+                "startedAt": "2026-10-06T21:20:24.699Z",
+                "durationMs": 12,
+                "events": [],
+                "artifacts": [],
+                "source": {
+                  "file": "tests/lynx.e2e.ts",
+                  "line": 11,
+                  "column": 68
+                }
+              },
+              {
+                "id": "01a11316-cf50-70a3-a6ee-4233e3ba9f46:5",
+                "index": 5,
+                "kind": "locator",
+                "api": "locator.tap",
+                "label": "locator(\"[accessibility-label=\\\"Settings\\\"]\")",
+                "status": "passed",
+                "startedAt": "2026-10-06T21:20:24.711Z",
+                "durationMs": 49,
+                "events": [],
+                "artifacts": [],
+                "source": {
+                  "file": "tests/lynx.e2e.ts",
+                  "line": 12,
+                  "column": 60
+                }
+              },
+              {
+                "id": "01a11316-cf50-70a3-a6ee-4233e3ba9f46:6",
+                "index": 6,
+                "kind": "assertion",
+                "api": "expect.toBeVisible",
+                "label": "locator(\"[accessibility-label=\\\"Notifications\\\"]\")",
+                "status": "passed",
+                "startedAt": "2026-10-06T21:20:24.760Z",
+                "durationMs": 119,
+                "events": [],
+                "artifacts": [],
+                "source": {
+                  "file": "tests/lynx.e2e.ts",
+                  "line": 13,
+                  "column": 73
+                }
+              },
+              {
+                "id": "01a11316-cf50-70a3-a6ee-4233e3ba9f46:7",
+                "index": 7,
+                "kind": "locator",
+                "api": "locator.tap",
+                "label": "locator(\"[accessibility-label=\\\"Notifications\\\"]\")",
+                "status": "passed",
+                "startedAt": "2026-10-06T21:20:24.880Z",
+                "durationMs": 29,
+                "events": [],
+                "artifacts": [],
+                "source": {
+                  "file": "tests/lynx.e2e.ts",
+                  "line": 14,
+                  "column": 65
+                }
+              },
+              {
+                "id": "01a11316-cf50-70a3-a6ee-4233e3ba9f46:8",
+                "index": 8,
+                "kind": "assertion",
+                "api": "expect.toHaveText",
+                "label": "locator(\"#selected\")",
+                "status": "passed",
+                "startedAt": "2026-10-06T21:20:24.909Z",
+                "durationMs": 120,
+                "events": [],
+                "artifacts": [],
+                "source": {
+                  "file": "tests/lynx.e2e.ts",
+                  "line": 15,
+                  "column": 45
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "664c7734adad739d18b11e3926441fd74e25138d660b865620d4fe8e3c9f878e",
+        "testId": "tests/lynx.e2e.ts::Lynx%20scroll-view%20reaches%20Item%2060%20without%20moving%20outer%20page",
+        "kind": "test",
+        "declarationIndex": 1,
+        "titlePath": [
+          "Lynx scroll-view reaches Item 60 without moving outer page"
+        ],
+        "file": "tests/lynx.e2e.ts",
+        "source": {
+          "file": "tests/lynx.e2e.ts",
+          "line": 19,
+          "column": 1
+        },
+        "targetId": "lynx-web",
+        "platform": "web",
+        "agent": "default",
+        "repeat": 0,
+        "tags": [],
+        "selected": true,
+        "status": "passed",
+        "attempts": [
+          {
+            "id": "01a11316-d212-7bd9-9b6a-732a5cbe6394",
+            "index": 0,
+            "status": "passed",
+            "startedAt": "2026-10-06T21:20:25.106Z",
+            "durationMs": 3469,
+            "artifacts": [
+              {
+                "id": "01a11316-d212-7bd9-9b6a-732a5cbe6394:artifact:0",
+                "kind": "trace",
+                "mediaType": "application/zip",
+                "redaction": "not-required",
+                "producer": {
+                  "kind": "attempt"
+                },
+                "path": "lynx-web/tests_lynx.e2e.ts__Lynx_20scroll-view_20reaches_20Item_2060_20without_20moving_20outer_20page-5e73f424/default/attempt-0/trace/trace.zip",
+                "size": 434026,
+                "sha256": "655a9ddd9722a9bd2c6ef00f1e6195205c3e92fcd9e6f5eb57f8c2ad802ae70f"
+              }
+            ],
+            "secondaryErrors": [],
+            "cleanup": "complete",
+            "steps": [
+              {
+                "id": "01a11316-d212-7bd9-9b6a-732a5cbe6394:0",
+                "index": 0,
+                "kind": "app",
+                "api": "app.open",
+                "label": "/",
+                "status": "passed",
+                "startedAt": "2026-10-06T21:20:25.115Z",
+                "durationMs": 68,
+                "events": [],
+                "artifacts": [],
+                "source": {
+                  "file": "tests/lynx.e2e.ts",
+                  "line": 20,
+                  "column": 12
+                }
+              },
+              {
+                "id": "01a11316-d212-7bd9-9b6a-732a5cbe6394:1",
+                "index": 1,
+                "kind": "assertion",
+                "api": "expect.toBeVisible",
+                "label": "locator(\"scroll-view#items\")",
+                "status": "passed",
+                "startedAt": "2026-10-06T21:20:25.183Z",
+                "durationMs": 163,
+                "events": [],
+                "artifacts": [],
+                "source": {
+                  "file": "tests/lynx.e2e.ts",
+                  "line": 23,
+                  "column": 21
+                }
+              },
+              {
+                "id": "01a11316-d212-7bd9-9b6a-732a5cbe6394:2",
+                "index": 2,
+                "kind": "locator",
+                "api": "locator.swipe",
+                "label": "locator(\"scroll-view#items\")",
+                "status": "passed",
+                "startedAt": "2026-10-06T21:20:25.390Z",
+                "durationMs": 66,
+                "events": [],
+                "artifacts": [],
+                "source": {
+                  "file": "tests/lynx.e2e.ts",
+                  "line": 31,
+                  "column": 13
+                }
+              },
+              {
+                "id": "01a11316-d212-7bd9-9b6a-732a5cbe6394:3",
+                "index": 3,
+                "kind": "locator",
+                "api": "locator.swipe",
+                "label": "locator(\"scroll-view#items\")",
+                "status": "passed",
+                "startedAt": "2026-10-06T21:20:25.646Z",
+                "durationMs": 56,
+                "events": [],
+                "artifacts": [],
+                "source": {
+                  "file": "tests/lynx.e2e.ts",
+                  "line": 41,
+                  "column": 14
+                }
+              },
+              {
+                "id": "01a11316-d212-7bd9-9b6a-732a5cbe6394:4",
+                "index": 4,
+                "kind": "locator",
+                "api": "locator.swipe",
+                "label": "locator(\"scroll-view#items\")",
+                "status": "passed",
+                "startedAt": "2026-10-06T21:20:25.871Z",
+                "durationMs": 66,
+                "events": [],
+                "artifacts": [],
+                "source": {
+                  "file": "tests/lynx.e2e.ts",
+                  "line": 41,
+                  "column": 14
+                }
+              },
+              {
+                "id": "01a11316-d212-7bd9-9b6a-732a5cbe6394:5",
+                "index": 5,
+                "kind": "locator",
+                "api": "locator.swipe",
+                "label": "locator(\"scroll-view#items\")",
+                "status": "passed",
+                "startedAt": "2026-10-06T21:20:26.104Z",
+                "durationMs": 64,
+                "events": [],
+                "artifacts": [],
+                "source": {
+                  "file": "tests/lynx.e2e.ts",
+                  "line": 41,
+                  "column": 14
+                }
+              },
+              {
+                "id": "01a11316-d212-7bd9-9b6a-732a5cbe6394:6",
+                "index": 6,
+                "kind": "locator",
+                "api": "locator.swipe",
+                "label": "locator(\"scroll-view#items\")",
+                "status": "passed",
+                "startedAt": "2026-10-06T21:20:26.337Z",
+                "durationMs": 65,
+                "events": [],
+                "artifacts": [],
+                "source": {
+                  "file": "tests/lynx.e2e.ts",
+                  "line": 41,
+                  "column": 14
+                }
+              },
+              {
+                "id": "01a11316-d212-7bd9-9b6a-732a5cbe6394:7",
+                "index": 7,
+                "kind": "locator",
+                "api": "locator.swipe",
+                "label": "locator(\"scroll-view#items\")",
+                "status": "passed",
+                "startedAt": "2026-10-06T21:20:26.570Z",
+                "durationMs": 57,
+                "events": [],
+                "artifacts": [],
+                "source": {
+                  "file": "tests/lynx.e2e.ts",
+                  "line": 41,
+                  "column": 14
+                }
+              },
+              {
+                "id": "01a11316-d212-7bd9-9b6a-732a5cbe6394:8",
+                "index": 8,
+                "kind": "locator",
+                "api": "locator.swipe",
+                "label": "locator(\"scroll-view#items\")",
+                "status": "passed",
+                "startedAt": "2026-10-06T21:20:26.794Z",
+                "durationMs": 58,
+                "events": [],
+                "artifacts": [],
+                "source": {
+                  "file": "tests/lynx.e2e.ts",
+                  "line": 41,
+                  "column": 14
+                }
+              },
+              {
+                "id": "01a11316-d212-7bd9-9b6a-732a5cbe6394:9",
+                "index": 9,
+                "kind": "locator",
+                "api": "locator.swipe",
+                "label": "locator(\"scroll-view#items\")",
+                "status": "passed",
+                "startedAt": "2026-10-06T21:20:27.017Z",
+                "durationMs": 51,
+                "events": [],
+                "artifacts": [],
+                "source": {
+                  "file": "tests/lynx.e2e.ts",
+                  "line": 41,
+                  "column": 14
+                }
+              },
+              {
+                "id": "01a11316-d212-7bd9-9b6a-732a5cbe6394:10",
+                "index": 10,
+                "kind": "locator",
+                "api": "locator.swipe",
+                "label": "locator(\"scroll-view#items\")",
+                "status": "passed",
+                "startedAt": "2026-10-06T21:20:27.237Z",
+                "durationMs": 65,
+                "events": [],
+                "artifacts": [],
+                "source": {
+                  "file": "tests/lynx.e2e.ts",
+                  "line": 41,
+                  "column": 14
+                }
+              },
+              {
+                "id": "01a11316-d212-7bd9-9b6a-732a5cbe6394:11",
+                "index": 11,
+                "kind": "locator",
+                "api": "locator.swipe",
+                "label": "locator(\"scroll-view#items\")",
+                "status": "passed",
+                "startedAt": "2026-10-06T21:20:27.468Z",
+                "durationMs": 50,
+                "events": [],
+                "artifacts": [],
+                "source": {
+                  "file": "tests/lynx.e2e.ts",
+                  "line": 41,
+                  "column": 14
+                }
+              },
+              {
+                "id": "01a11316-d212-7bd9-9b6a-732a5cbe6394:12",
+                "index": 12,
+                "kind": "locator",
+                "api": "locator.swipe",
+                "label": "locator(\"scroll-view#items\")",
+                "status": "passed",
+                "startedAt": "2026-10-06T21:20:27.685Z",
+                "durationMs": 50,
+                "events": [],
+                "artifacts": [],
+                "source": {
+                  "file": "tests/lynx.e2e.ts",
+                  "line": 41,
+                  "column": 14
+                }
+              },
+              {
+                "id": "01a11316-d212-7bd9-9b6a-732a5cbe6394:13",
+                "index": 13,
+                "kind": "locator",
+                "api": "locator.swipe",
+                "label": "locator(\"scroll-view#items\")",
+                "status": "passed",
+                "startedAt": "2026-10-06T21:20:27.908Z",
+                "durationMs": 70,
+                "events": [],
+                "artifacts": [],
+                "source": {
+                  "file": "tests/lynx.e2e.ts",
+                  "line": 41,
+                  "column": 14
+                }
+              },
+              {
+                "id": "01a11316-d212-7bd9-9b6a-732a5cbe6394:14",
+                "index": 14,
+                "kind": "locator",
+                "api": "locator.swipe",
+                "label": "locator(\"scroll-view#items\")",
+                "status": "passed",
+                "startedAt": "2026-10-06T21:20:28.152Z",
+                "durationMs": 72,
+                "events": [],
+                "artifacts": [],
+                "source": {
+                  "file": "tests/lynx.e2e.ts",
+                  "line": 41,
+                  "column": 14
+                }
+              },
+              {
+                "id": "01a11316-d212-7bd9-9b6a-732a5cbe6394:15",
+                "index": 15,
+                "kind": "screen",
+                "api": "screen.scrollUntilVisible",
+                "label": "locator(\"[accessibility-label=\\\"Item 60\\\"]\")",
+                "status": "passed",
+                "startedAt": "2026-10-06T21:20:28.426Z",
+                "durationMs": 8,
+                "events": [],
+                "artifacts": [],
+                "source": {
+                  "file": "tests/lynx.e2e.ts",
+                  "line": 49,
+                  "column": 13
+                }
+              },
+              {
+                "id": "01a11316-d212-7bd9-9b6a-732a5cbe6394:16",
+                "index": 16,
+                "kind": "locator",
+                "api": "locator.tap",
+                "label": "locator(\"[accessibility-label=\\\"Item 60\\\"]\")",
+                "status": "passed",
+                "startedAt": "2026-10-06T21:20:28.435Z",
+                "durationMs": 24,
+                "events": [],
+                "artifacts": [],
+                "source": {
+                  "file": "tests/lynx.e2e.ts",
+                  "line": 50,
+                  "column": 13
+                }
+              },
+              {
+                "id": "01a11316-d212-7bd9-9b6a-732a5cbe6394:17",
+                "index": 17,
+                "kind": "assertion",
+                "api": "expect.toHaveText",
+                "label": "locator(\"#selected\")",
+                "status": "passed",
+                "startedAt": "2026-10-06T21:20:28.518Z",
+                "durationMs": 9,
+                "events": [],
+                "artifacts": [],
+                "source": {
+                  "file": "tests/lynx.e2e.ts",
+                  "line": 55,
+                  "column": 45
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "errors": [],
+    "summary": {
+      "discovered": 2,
+      "selected": 2,
+      "executed": 2,
+      "passed": 2,
+      "failed": 0,
+      "interrupted": 0,
+      "flaky": 0,
+      "skipped": 0
+    },
+    "limits": {
+      "maxAgentContextBytes": 16384,
+      "maxLedgerBytes": 8192,
+      "maxObservationBytes": 262144,
+      "maxEventsPerStep": 1000,
+      "maxModelTokensPerCall": 64000
+    },
+    "usage": {
+      "discoveredResults": 2,
+      "maxAgentContextBytes": 0,
+      "maxLedgerBytes": 0,
+      "maxObservationBytes": 0,
+      "artifactBytes": 726987,
+      "downloads": 0,
+      "events": 0,
+      "modelTokens": 0,
+      "maxModelCallsInStep": 0,
+      "maxActionStepsInStep": 0
+    }
+  }
+}
