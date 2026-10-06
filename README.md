@@ -91,3 +91,7 @@ NODE_OPTIONS=--use-system-ca E2E_TELEMETRY_DISABLED=1 E2E_DECISIONS=1 npx e2e ru
 Web 宿主现将弹层标为 aria-modal dialog，并将遮挡的 product-scroll 设为 inert/aria-hidden；面板关闭后恢复。两版共用此修正。测试明确要求 Walnut 选择后面板关闭，并保留所有业务、手势和嵌套滚动断言。
 
 复测保留全部失败：decisions-modal-fixed 为 29.35 秒通过和接口失败；decisions-modal-confirm 确认 OpenRouter HTTP 502；deepseek-modal-fixed 为 21.37 秒通过和错误工具调用导致 Bag (0) 断言失败。加入接口失败接手后，decisions-resilient-final 两轮完整通过，22.58 / 17.96 秒，关闭 e2e 操作缓存。两轮都出现 HTTP 502，但精确状态确认任务已完成后继续；不能说纯 Decisions 全部步骤成功。现阶段速度接近纯 DeepSeek，样本不足以断言稳定更快。
+
+## 提交订单与 confetti
+
+购物袋新增 Submit order，保存规格、数量和总价，清空购物袋并显示 Order confirmed。演示订单只存于页面状态。成功页使用 48 个 Lynx view 和 CSS keyframes 显示 confetti。完整 Agent 测试在移除商品检查后重新加入三件 Sand / Walnut，提交 $810 订单，断言订单明细、Bag (0)、confetti 节点和实际动画位移。2026-10-06 Decisions + DeepSeek 接手版关闭操作缓存运行通过，45.92 秒。报告和视频在 results/agent-order-confetti，截图在 screenshots/agent-order-confetti.png。
