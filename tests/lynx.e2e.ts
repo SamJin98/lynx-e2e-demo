@@ -42,3 +42,30 @@ test('Product finish, quantity, bag and details update correctly',async({app,bro
  await mkdir('screenshots',{recursive:true});
  await surfaceOf(engine)!.page().screenshot({path:'screenshots/product-detail.png'});
 });
+
+test('Mouse dragging changes images and releases outside the carousel',async({app,browser})=>{
+ await app.open('/');
+ await expect(browser.locator('#image-index')).toHaveText('1 / 3');
+ const page=surfaceOf(engine)!.page();
+ const box=await page.locator('.photo').boundingBox();
+ const y=box!.y+170;
+ await page.mouse.move(box!.x+380,y);
+ await page.mouse.down();
+ await page.mouse.move(box!.x+40,y,{steps:12});
+ await page.mouse.up();
+ await expect(browser.locator('#image-index')).toHaveText('2 / 3');
+ await page.mouse.move(box!.x+40,y);
+ await page.mouse.down();
+ await page.mouse.move(box!.x+380,y,{steps:12});
+ await page.mouse.up();
+ await expect(browser.locator('#image-index')).toHaveText('1 / 3');
+ await page.mouse.move(box!.x+380,y);
+ await page.mouse.down();
+ await page.mouse.move(box!.x-40,y,{steps:12});
+ await page.mouse.up();
+ await expect(browser.locator('#image-index')).toHaveText('2 / 3');
+ await page.locator('.photo-track').evaluate(async e=>{for(let i=0;i<100;i++){const value=getComputedStyle(e).transform;if(value!=='none'&&Math.abs(new DOMMatrixReadOnly(value).m41+440)<1)return;await new Promise(r=>setTimeout(r,20));}throw new Error('Carousel did not settle');});
+ await page.mouse.move(box!.x+380,y);
+ await page.mouse.move(box!.x+40,y,{steps:12});
+ await expect(browser.locator('#image-index')).toHaveText('2 / 3');
+});

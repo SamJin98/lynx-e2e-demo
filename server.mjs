@@ -3,9 +3,42 @@ import {readFile} from 'node:fs/promises';
 import path from 'node:path';
 const html=`<!doctype html><html><head><title>FORM / STUDIO · Everyday Chair</title><style>body{margin:0;background:#e5e7df;min-height:100vh;display:flex;align-items:center;justify-content:center}lynx-view{display:block;width:440px;height:820px;box-shadow:0 20px 70px #1c271b24}</style></head><body><lynx-view url="/dist/main.web.bundle"></lynx-view><script type="module" src="/node_modules/@lynx-js/web-core/dist/client_prod/static/js/client.js"></script><script>
 let lastWheel=0;
+let mouseDrag=null;
+const photoOf=event=>event.composedPath().find(node=>node.classList?.contains('photo'));
+const sendTouch=(track,type,x,y)=>{
+ const touch=new Touch({identifier:1,target:track,clientX:x,clientY:y});
+ track.dispatchEvent(new TouchEvent(type,{bubbles:true,composed:true,touches:type==='touchend'?[]:[touch],changedTouches:[touch]}));
+};
+const endMouseDrag=()=>{
+ if(!mouseDrag)return;
+ const drag=mouseDrag;mouseDrag=null;
+ sendTouch(drag.track,'touchend',drag.x,drag.y);
+ drag.photo.style.cursor='grab';
+ if(drag.photo.hasPointerCapture(drag.id))drag.photo.releasePointerCapture(drag.id);
+};
+document.addEventListener('pointerdown',event=>{
+ const photo=photoOf(event);
+ if(event.pointerType!=='mouse'||event.button!==0||!photo)return;
+ event.preventDefault();
+ mouseDrag={photo,track:photo.querySelector('.photo-track'),id:event.pointerId,x:event.clientX,y:event.clientY};
+ photo.setPointerCapture(event.pointerId);
+ photo.style.cursor='grabbing';
+ sendTouch(mouseDrag.track,'touchstart',event.clientX,event.clientY);
+},true);
+document.addEventListener('pointermove',event=>{
+ if(!mouseDrag||event.pointerId!==mouseDrag.id)return;
+ event.preventDefault();
+ mouseDrag.x=event.clientX;mouseDrag.y=event.clientY;
+ sendTouch(mouseDrag.track,'touchmove',event.clientX,event.clientY);
+},true);
+for(const type of ['pointerup','pointercancel','lostpointercapture'])document.addEventListener(type,event=>{
+ if(mouseDrag&&event.pointerId===mouseDrag.id)endMouseDrag();
+},true);
+window.addEventListener('blur',endMouseDrag);
+document.addEventListener('dragstart',event=>{if(photoOf(event))event.preventDefault();});
 document.addEventListener('wheel',event=>{
- const photo=event.composedPath().find(node=>node.classList?.contains('photo'));
- if(!photo || Math.abs(event.deltaX)<=Math.abs(event.deltaY))return;
+ const photo=photoOf(event);
+ if(mouseDrag || !photo || Math.abs(event.deltaX)<=Math.abs(event.deltaY))return;
  event.preventDefault();
  if(Date.now()-lastWheel<400)return;
  lastWheel=Date.now();
