@@ -62,7 +62,7 @@ npm run test:agent 和 npm run test:cache 已包含完整流程。每阶段限�
 
 `E2E_DECISIONS=1` 使用 `@e2e-dev/decision` 和本项目 `openrouter-decisions.ts` 适配器，通过 `https://openrouter.ai/api/alpha/decisions` 调用 `openai/gpt-6-luna-decisions`。沿用 OPENROUTER_API_KEY，无模型 fallback。该接口使用 state/questions，不是 Chat Completions。
 
-完整流程的拖拽阶段明确使用 DeepSeek gesture agent，因为官方 decision executor v1 不提供 drag。其余阶段用 Decisions。官方 executor 也只提供 viewport scroll，没有 scroll_to 和指定滚动容器。不要将这版称为纯 Decisions 完整流程。
+完整流程的拖拽阶段明确使用 DeepSeek agent，因为官方 decision executor v1 不提供 drag。其余阶段用 Decisions。官方 executor 也只提供 viewport scroll，没有 scroll_to 和指定滚动容器。不要将这版称为纯 Decisions 完整流程。
 
 ```sh
 NODE_OPTIONS=--use-system-ca E2E_TELEMETRY_DISABLED=1 E2E_DECISIONS=0 npx e2e run tests/journey.e2e.ts --no-cache --output results/deepseek-comparison
@@ -75,3 +75,11 @@ NODE_OPTIONS=--use-system-ca E2E_TELEMETRY_DISABLED=1 E2E_DECISIONS=1 npx e2e ru
 2026-10-06 完整流程：DeepSeek 通过，33.23 秒、19 次模型调用。Decisions 混合版在第二阶段停止：实际 scroll 和 tap 已执行，但两次 completion check 都返回 inconclusive；9.57 秒是中止耗时，不能算完整流程提速。详见 results/decisions-comparison-1 和 results/deepseek-comparison-1。
 
 相同购物用例（选 Sand、数量 2、加入购物袋），两版各三次关闭操作缓存：DeepSeek 完整测试耗时 3.14 / 3.49 / 4.06 秒，Decisions 为 3.35 / 3.16 / 2.67 秒，均全部通过。中位数分别 3.49 与 3.16 秒，Decisions 约快 9.5%。样本较小，不代表完整流程速度；provider prompt cache 仍启用。最终配置复测 Decisions 购物用例通过。
+
+## 完整混合流程接手规则
+
+两版使用同一个 tests/journey.e2e.ts 和相同业务断言。Decisions 模式的拖拽、指定材质面板滚动直接交给 DeepSeek。其他步骤先用 Decisions；仅 AUTOMATION_UNSUPPORTED 可接手，真实产品失败和 provider 错误继续抛出。接手前检查精确目标状态，已满足则继续，否则让 DeepSeek 从当前页面完成剩余要求，避免重复操作。截图和 agent-journey-routing.json 记录路由。
+
+2026-10-06 results/decisions-hybrid-final 完整流程通过，129.03 秒，27 次 Decisions、7 次 DeepSeek 调用。Agent 的部分完成确认仍是 blocked，由原有精确状态检查确认结果；不能称为每个 Decisions 步骤都通过。屏幕外控件点击等待导致速度明显低于之前纯 DeepSeek。所有原业务断言保留。
+
+同一份最终测试的纯 DeepSeek 复测（results/deepseek-hybrid-baseline）通过，39.67 秒、18 次调用。两版均关闭 e2e 操作缓存，provider prompt cache 保持启用；这是单轮完整流程比较，不是统计速度基准。

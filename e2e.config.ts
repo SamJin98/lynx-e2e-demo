@@ -21,5 +21,5 @@ export default {
     providerOptions: model === 'openai/gpt-6-luna' ? {openaiCompatible: {reasoningEffort: 'none'}} : {},
     maxSteps: 16, maxModelCalls: 16, maxInputTokens: 16000,
     context: 'This is a furniture product detail page. Swipe the product image carousel horizontally; use finish options, quantity buttons, Add to bag, and Product details. Controls have accessibility-label attributes',
-  }, ...(process.env.E2E_DECISIONS === '1' ? {gesture: {model:openrouter.chatModel('deepseek/deepseek-v4.1-flash'), maxSteps:6,maxModelCalls:6}} : {})},
+  }, ...(process.env.E2E_DECISIONS === '1' ? {deepseek: {model:openrouter.chatModel('deepseek/deepseek-v4.1-flash'), maxSteps:16,maxModelCalls:16}} : {})},
 };
