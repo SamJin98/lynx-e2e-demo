@@ -103,3 +103,5 @@ Web 宿主现将弹层标为 aria-modal dialog，并将遮挡的 product-scroll 
 下单展示现已恢复开头的商品图真实横向拖拽。两版共用同一用例：拖到图 2、选 Sand、加购两件、购物袋改为三件、提交 $720 订单和 confetti。2026-10-06 两版手势记录均为鼠标 -315px、0 wheel、0 分页点击；Decisions 版拖拽由 DeepSeek 执行（2 次调用），其余下单为 Decisions（12 次调用），完整通过 11.92 秒；纯 DeepSeek（9 次调用）通过 16.96 秒。报告视频在 results/order-drag-decisions 和 results/order-drag-deepseek。前一版未包含横向拖拽的录屏为历史版本。
 
 下单录屏的拖动已放慢：测试在 Agent 拖动期间对真实 mouse.move 插值，随后恢复原始输入方法，没有改视频播放速度或修改依赖。e2e 内置 drag 当前没有可传的持续时间参数。两版实测均为 -315px，持续约 2.42 秒，0 wheel、0 分页点击。Decisions 混合版通过 15.02 秒，纯 DeepSeek 通过 19.57 秒；报告与视频见 results/order-slow-drag-decisions 和 results/order-slow-drag-deepseek。
+
+横向拖动再次调整为约 1.2 秒，图片拖动区域左右各外移 20px，使实际拖动从 315px 增加到 355px。两版分别实测 1.216 / 1.226 秒，0 wheel、0 分页点击，图片 2 和下单断言均通过。Decisions 混合版 13.34 秒、纯 DeepSeek 18.25 秒，见 results/order-medium-drag-decisions、results/order-medium-drag-deepseek。

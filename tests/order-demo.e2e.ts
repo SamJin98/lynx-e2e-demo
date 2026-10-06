@@ -34,9 +34,9 @@ test('Place order and celebrate',{agent:'default'},async({app,browser,agent})=>{
  mouse.move=async(x,y,options)=>{
   if(held){
    const from={...last},began=performance.now();
-   for(let i=1;i<=60;i++){
+   for(let i=1;i<=30;i++){
     await new Promise(resolve=>setTimeout(resolve,Math.max(0,began+i*20-performance.now())));
-    await originalMove(from.x+(x-from.x)*i/60,from.y+(y-from.y)*i/60);
+    await originalMove(from.x+(x-from.x)*i/30,from.y+(y-from.y)*i/30);
    }
   }else await originalMove(x,y,options);
   last={x,y};
@@ -47,7 +47,7 @@ test('Place order and celebrate',{agent:'default'},async({app,browser,agent})=>{
 
  await expect(browser.locator('#image-index')).toHaveText('2 / 3');
  const gestures=await page.evaluate(()=>(window as any).__orderGesture);
- expect(gestures.drags.some((distance:number)=>distance < -220)).toBe(true);
+ expect(gestures.drags.some((distance:number)=>distance < -340)).toBe(true);
  expect(gestures.durations.some((duration:number)=>duration>=1100)).toBe(true);
  expect(gestures.wheels).toBe(0);
  expect(gestures.paginationClicks).toBe(0);
