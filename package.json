@@ -26,5 +26,8 @@
     "e2e": "0.18.0",
     "typescript": "5.9.3"
   },
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "@e2e-dev/decision": "^0.1.0"
+  }
 }

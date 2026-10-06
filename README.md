@@ -57,3 +57,21 @@ tests/journey.e2e.ts 通过 agent.act 完成拖图、详情展开、材质面板
 AI 使用 e2e 内置 drag 和 scroll_to 工具。为让浏览器观测识别 Lynx 控件，Web 宿主将 accessibility-label 与 button trait 映射为 ARIA 属性；透明图片区域用于内置 drag 定位。鼠标/滚轮到触摸的 Web 适配仍属于本项目，不是 e2e 或 Lynx 原生移动引擎。
 
 npm run test:agent 和 npm run test:cache 已包含完整流程。每阶段限制 4–8 次操作和模型调用；整个流程超时 300 秒，无测试重试。
+
+## OpenRouter Decisions 对比
+
+`E2E_DECISIONS=1` 使用 `@e2e-dev/decision` 和本项目 `openrouter-decisions.ts` 适配器，通过 `https://openrouter.ai/api/alpha/decisions` 调用 `openai/gpt-6-luna-decisions`。沿用 OPENROUTER_API_KEY，无模型 fallback。该接口使用 state/questions，不是 Chat Completions。
+
+完整流程的拖拽阶段明确使用 DeepSeek gesture agent，因为官方 decision executor v1 不提供 drag。其余阶段用 Decisions。官方 executor 也只提供 viewport scroll，没有 scroll_to 和指定滚动容器。不要将这版称为纯 Decisions 完整流程。
+
+```sh
+NODE_OPTIONS=--use-system-ca E2E_TELEMETRY_DISABLED=1 E2E_DECISIONS=0 npx e2e run tests/journey.e2e.ts --no-cache --output results/deepseek-comparison
+NODE_OPTIONS=--use-system-ca E2E_TELEMETRY_DISABLED=1 E2E_DECISIONS=1 npx e2e run tests/journey.e2e.ts --no-cache --output results/decisions-comparison
+# 两版支持的相同购物用例，各重复三次。
+NODE_OPTIONS=--use-system-ca E2E_TELEMETRY_DISABLED=1 E2E_DECISIONS=0 npx e2e run tests/agent.e2e.ts --grep 'selects finish' --repeat-each 3 --no-cache --output results/deepseek-shopping-comparison
+NODE_OPTIONS=--use-system-ca E2E_TELEMETRY_DISABLED=1 E2E_DECISIONS=1 npx e2e run tests/agent.e2e.ts --grep 'selects finish' --repeat-each 3 --no-cache --output results/decisions-shopping-comparison
+```
+
+2026-10-06 完整流程：DeepSeek 通过，33.23 秒、19 次模型调用。Decisions 混合版在第二阶段停止：实际 scroll 和 tap 已执行，但两次 completion check 都返回 inconclusive；9.57 秒是中止耗时，不能算完整流程提速。详见 results/decisions-comparison-1 和 results/deepseek-comparison-1。
+
+相同购物用例（选 Sand、数量 2、加入购物袋），两版各三次关闭操作缓存：DeepSeek 完整测试耗时 3.14 / 3.49 / 4.06 秒，Decisions 为 3.35 / 3.16 / 2.67 秒，均全部通过。中位数分别 3.49 与 3.16 秒，Decisions 约快 9.5%。样本较小，不代表完整流程速度；provider prompt cache 仍启用。最终配置复测 Decisions 购物用例通过。

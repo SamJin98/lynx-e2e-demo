@@ -2,7 +2,7 @@ import {test,surfaceOf} from '@e2e-dev/web';
 import {expect} from 'e2e';
 import {mkdir} from 'node:fs/promises';
 import {engine} from '../engine.ts';
-test('Agent swipes the product image carousel',async({app,browser,agent})=>{
+test('Agent swipes the product image carousel',{agent:'default'},async({app,browser,agent})=>{
  await app.open('/');
  await expect(browser.locator('.title')).toHaveText('The Everyday Chair');
  const page=surfaceOf(engine)!.page();
@@ -14,7 +14,7 @@ test('Agent swipes the product image carousel',async({app,browser,agent})=>{
  await page.locator('.photo-track').evaluate(async e=>{for(let i=0;i<100;i++){const value=getComputedStyle(e).transform;if(value!=='none'&&Math.abs(new DOMMatrixReadOnly(value).m41+440)<1)return;await new Promise(r=>setTimeout(r,20));}throw new Error('Carousel did not settle on image 2');});
  await page.screenshot({path:'screenshots/agent-swipe-after.png'});
 });
-test('Agent selects finish and adds two chairs to bag',async({app,browser,agent})=>{
+test('Agent selects finish and adds two chairs to bag',{agent:'default'},async({app,browser,agent})=>{
  await app.open('/');
  await expect(browser.locator('.title')).toHaveText('The Everyday Chair');
  await agent.act('Select the Sand finish, increase quantity to 2, then tap Add to bag.');

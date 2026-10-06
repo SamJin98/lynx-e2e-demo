@@ -3,7 +3,7 @@ import {expect} from 'e2e';
 import {engine} from '../engine.ts';
 import {mkdir,writeFile} from 'node:fs/promises';
 
-test('Agent complete product journey with continuous drag and nested scrolling',{timeout:300000},async({app,browser,agent})=>{
+test('Agent complete product journey with continuous drag and nested scrolling',{timeout:300000,agent:'default'},async({app,browser,agent})=>{
  const page=surfaceOf(engine)!.page();
  await page.addInitScript(()=>{
   const audit={drags:[] as number[],wheels:0,paginationClicks:0};
@@ -17,7 +17,7 @@ test('Agent complete product journey with continuous drag and nested scrolling',
  });
  await app.open('/');
  await expect(browser.locator('.title')).toHaveText('The Everyday Chair');
- await agent.act('Drag the Right side of product image onto the Left side of product image to view image 2. Use the drag tool on these two named image regions. Do not scroll and do not tap pagination.',{maxSteps:6,maxModelCalls:6});
+ await agent.act('Drag the Right side of product image onto the Left side of product image to view image 2. Use the drag tool on these two named image regions. Do not scroll and do not tap pagination.',{agent:process.env.E2E_DECISIONS === '1' ? 'gesture' : 'default',maxSteps:6,maxModelCalls:6});
  await expect(browser.locator('#image-index')).toHaveText('2 / 3');
  const gestures=await page.evaluate(()=>(window as any).__gestureAudit);
  expect(gestures.drags.some((distance:number)=>distance < -220)).toBe(true);
